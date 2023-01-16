@@ -15,6 +15,8 @@
     <canvas id="chart_03" width="800" height="400"></canvas>
     <canvas id="chart_04" width="800" height="400"></canvas>
     <canvas id="chart_05" width="800" height="400"></canvas>
+    <canvas id="chart_06" width="800" height="400"></canvas>
+    <canvas id="chart_07" width="800" height="400"></canvas>
 
     <script>
         chartIt_01();
@@ -30,7 +32,7 @@
                         data: data.ys,
                         fill: false,
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderColor: 'rgba(235, 100, 52)',
                         borderWidth: 1,
                     }]
                 },
@@ -67,7 +69,7 @@
                         data: data.ys,
                         fill: false,
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderColor: 'rgba(235, 52, 70)',
                         borderWidth: 1,
                     }]
                 },
@@ -104,7 +106,7 @@
                         data: data.ys,
                         fill: false,
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderColor: 'rgba(52, 235, 232)',
                         borderWidth: 1,
                     }]
                 },
@@ -141,7 +143,7 @@
                         data: data.ys,
                         fill: false,
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderColor: 'rgba(52, 235, 79)',
                         borderWidth: 1,
                     }]
                 },
@@ -178,7 +180,7 @@
                         data: data.ys,
                         fill: false,
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderColor: 'rgba(235, 226, 52)',
                         borderWidth: 1,
                     }]
                 },
@@ -188,6 +190,80 @@
             const xs = [];
             const ys= [];
             const response = await fetch('TATASTEEL.NS.csv');
+            const data = await response.text();
+
+            const table = data.split('\n').slice(1);
+            table.forEach(row => {
+                const columns = row.split(',');
+                const date = columns[0];
+                xs.push(date);
+                const volume = columns[6];
+                ys.push(volume)
+                console.log(date, volume)
+            });
+            return {xs, ys};
+        }
+
+        chartIt_06();
+        async function chartIt_06() {
+            const data = await getData_06();
+            const ctx = document.getElementById('chart_06');
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.xs,
+                    datasets: [{
+                        label: 'BSE.NS',
+                        data: data.ys,
+                        fill: false,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                    }]
+                },
+            });
+        }
+        async function getData_06() {
+            const xs = [];
+            const ys= [];
+            const response = await fetch('BSE.NS.csv');
+            const data = await response.text();
+
+            const table = data.split('\n').slice(1);
+            table.forEach(row => {
+                const columns = row.split(',');
+                const date = columns[0];
+                xs.push(date);
+                const volume = columns[6];
+                ys.push(volume)
+                console.log(date, volume)
+            });
+            return {xs, ys};
+        }
+
+        chartIt_07();
+        async function chartIt_07() {
+            const data = await getData_07();
+            const ctx = document.getElementById('chart_07');
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.xs,
+                    datasets: [{
+                        label: 'NSE.NS',
+                        data: data.ys,
+                        fill: false,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(52, 235, 205)',
+                        borderWidth: 1,
+                    }]
+                },
+            });
+        }
+        async function getData_07() {
+            const xs = [];
+            const ys= [];
+            const response = await fetch('NSE.V.csv');
             const data = await response.text();
 
             const table = data.split('\n').slice(1);
